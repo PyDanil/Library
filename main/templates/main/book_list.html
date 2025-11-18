@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Книги - Библиотека{% endblock %}
+
+{% block content %}
+<h2>📖 Каталог книг</h2>
+
+<div class="filters">
+    <form method="get">
+        <input type="text" name="search" placeholder="Поиск книг..." value="{{ search_query }}">
+        <select name="genre">
+            <option value="">Все жанры</option>
+            {% for genre in genres %}
+            <option value="{{ genre.id_genre }}" {% if selected_genre == genre.id_genre|stringformat:"i" %}selected{% endif %}>
+                {{ genre.name_genre }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit">🔍 Фильтровать</button>
+    </form>
+</div>
+
+{% for book in books %}
+<div class="book">
+    <h3><a href="{% url 'book_detail' book.id_book %}">{{ book.title }}</a></h3>
+    <p><strong>Автор:</strong> <a href="{% url 'author_detail' book.id_author.id_author %}">{{ book.id_author.first_name }} {{ book.id_author.last_name }}</a></p>
+    <p><strong>Год:</strong> {{ book.year }} | <strong>Жанр:</strong> {{ book.id_genre.name_genre }}</p>
+    <p><strong>Страниц:</strong> {{ book.pages }} | <strong>Рейтинг:</strong> {{ book.age_rating }}</p>
+</div>
+{% empty %}
+<p>Книги не найдены.</p>
+{% endfor %}
+{% endblock %}

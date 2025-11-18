@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ book.title }} - Библиотека{% endblock %}
+
+{% block content %}
+<div class="book-detail">
+    <h2>{{ book.title }}</h2>
+    <p><strong>Автор:</strong> <a href="{% url 'author_detail' book.id_author.id_author %}">{{ book.id_author.first_name }} {{ book.id_author.last_name }}</a></p>
+    <p><strong>Год публикации:</strong> {{ book.year }}</p>
+    <p><strong>Жанр:</strong> {{ book.id_genre.name_genre }}</p>
+    <p><strong>Описание жанра:</strong> {{ book.id_genre.description }}</p>
+    <p><strong>Страниц:</strong> {{ book.pages }}</p>
+    <p><strong>Возрастной рейтинг:</strong> {{ book.age_rating }}</p>
+    <p><strong>Размер файла:</strong> {{ book.file_size }} байт</p>
+    <p><strong>Путь к файлу:</strong> {{ book.file_path }}</p>
+</div>
+<a href="{% url 'book_list' %}">← Назад к каталогу</a>
+{% endblock %}

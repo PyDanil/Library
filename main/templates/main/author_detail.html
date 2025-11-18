@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ author.first_name }} {{ author.last_name }} - Библиотека{% endblock %}
+
+{% block content %}
+<div class="book-detail">
+    <h2>{{ author.first_name }} {{ author.last_name }}</h2>
+    <p><strong>Страна:</strong> {{ author.country }}</p>
+    <p><strong>Дата рождения:</strong> {{ author.birthday }}</p>
+    
+    <h3>Книги автора:</h3>
+    {% for book in books %}
+    <div class="book">
+        <h4><a href="{% url 'book_detail' book.id_book %}">{{ book.title }}</a></h4>
+        <p><strong>Год:</strong> {{ book.year }} | <strong>Жанр:</strong> {{ book.id_genre.name_genre }}</p>
+        <p><strong>Страниц:</strong> {{ book.pages }} | <strong>Рейтинг:</strong> {{ book.age_rating }}</p>
+    </div>
+    {% empty %}
+    <p>Книги этого автора не найдены.</p>
+    {% endfor %}
+</div>
+<a href="{% url 'author_list' %}">← Назад к авторам</a>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Авторы - Библиотека{% endblock %}
+
+{% block content %}
+<h2>📚 Список авторов</h2>
+
+{% for author in authors %}
+<div class="book">
+    <h3><a href="{% url 'author_detail' author.id_author %}">{{ author.first_name }} {{ author.last_name }}</a></h3>
+    <p><strong>Страна:</strong> {{ author.country }}</p>
+    <p><strong>Дата рождения:</strong> {{ author.birthday }}</p>
+</div>
+{% empty %}
+<p>Авторы не найдены.</p>
+{% endfor %}
+{% endblock %}

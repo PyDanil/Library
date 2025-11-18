@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Пользователи - Библиотека{% endblock %}
+
+{% block content %}
+<h2>👥 Пользователи библиотеки</h2>
+
+{% for user in users %}
+<div class="book">
+    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Дата регистрации:</strong> {{ user.date_join }}</p>
+    <p><strong>Любимый автор:</strong> 
+        <a href="{% url 'author_detail' user.favourite_id_author.id_author %}">
+            {{ user.favourite_id_author.first_name }} {{ user.favourite_id_author.last_name }}
+        </a>
+    </p>
+</div>
+{% empty %}
+<p>Пользователи не найдены.</p>
+{% endfor %}
+{% endblock %}
