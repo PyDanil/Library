@@ -1,0 +1,56 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Чтение: {{ book.title }} - SysLibrary{% endblock %}
+
+{% block content %}
+<a href="{% url 'book_detail' book.id_book %}" class="back-btn">
+    ← Назад к книге
+</a>
+
+<div style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+    <!-- Хедер книги -->
+    <div style="background: linear-gradient(135deg, #059669, #10b981); color: white; padding: 2rem;">
+        <div style="text-align: center;">
+            <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">{{ book.title }}</h1>
+            <p style="font-size: 1.2rem; opacity: 0.9;">{{ book.id_author.first_name }} {{ book.id_author.last_name }}</p>
+        </div>
+    </div>
+
+    <!-- Содержание книги -->
+    <div style="padding: 3rem; max-width: 800px; margin: 0 auto;">
+        {% if book.content %}
+        <div style="font-size: 1.1rem; line-height: 1.8; color: #374151;">
+            {{ book.content|linebreaks }}
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 4rem; color: #6b7280;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">📖</div>
+            <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Текст книги пока недоступен</h3>
+            <p>Мы работаем над добавлением содержимого этой книги</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Информация о книге -->
+    <div style="background: #f8fafc; padding: 1.5rem; border-top: 1px solid #e2e8f0;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; text-align: center;">
+            <div>
+                <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 0.25rem;">Год издания</div>
+                <div style="font-weight: 600; color: #374151;">{{ book.year }}</div>
+            </div>
+            <div>
+                <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 0.25rem;">Жанр</div>
+                <div style="font-weight: 600; color: #374151;">{{ book.id_genre.name_genre }}</div>
+            </div>
+            <div>
+                <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 0.25rem;">Страниц</div>
+                <div style="font-weight: 600; color: #374151;">{{ book.pages }}</div>
+            </div>
+            <div>
+                <div style="font-size: 0.8rem; color: #6b7280; margin-bottom: 0.25rem;">Рейтинг</div>
+                <div style="font-weight: 600; color: #374151;">{{ book.age_rating }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

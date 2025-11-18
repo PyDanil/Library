@@ -7,6 +7,7 @@ class Author(models.Model):
     birthday = models.DateField()
     country = models.CharField(max_length=40)
     photo = models.ImageField(upload_to='authors/', blank=True, null=True)
+    description = models.TextField(max_length=1000, blank=True)  # новое поле
     
     class Meta:
         db_table = 'Author'
@@ -36,6 +37,7 @@ class Book(models.Model):
     pages = models.IntegerField()
     age_rating = models.CharField(max_length=10)
     cover_image = models.ImageField(upload_to='covers/', blank=True, null=True)
+    content = models.TextField(blank=True)  # текст книги
     
     class Meta:
         db_table = 'Book'

@@ -5,12 +5,10 @@ def book_list(request):
     books = Book.objects.all().select_related('id_author', 'id_genre')
     genres = Genre.objects.all()
     
-    # Фильтрация по жанру
     genre_filter = request.GET.get('genre')
     if genre_filter:
         books = books.filter(id_genre=genre_filter)
     
-    # Поиск
     search_query = request.GET.get('search')
     if search_query:
         books = books.filter(title__icontains=search_query)
@@ -26,6 +24,10 @@ def book_list(request):
 def book_detail(request, book_id):
     book = get_object_or_404(Book.objects.select_related('id_author', 'id_genre'), id_book=book_id)
     return render(request, 'main/book_detail.html', {'book': book})
+
+def book_read(request, book_id):
+    book = get_object_or_404(Book.objects.select_related('id_author', 'id_genre'), id_book=book_id)
+    return render(request, 'main/book_read.html', {'book': book})
 
 def author_list(request):
     authors = Author.objects.all()
