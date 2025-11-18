@@ -1,17 +1,35 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Авторы - Библиотека{% endblock %}
+{% block title %}Авторы - Modern Library{% endblock %}
 
 {% block content %}
-<h2>📚 Список авторов</h2>
+<h1 class="page-title">✍️ Наши Авторы</h1>
 
-{% for author in authors %}
-<div class="book">
-    <h3><a href="{% url 'author_detail' author.id_author %}">{{ author.first_name }} {{ author.last_name }}</a></h3>
-    <p><strong>Страна:</strong> {{ author.country }}</p>
-    <p><strong>Дата рождения:</strong> {{ author.birthday }}</p>
+<div class="cards-grid">
+    {% for author in authors %}
+    <a href="{% url 'author_detail' author.id_author %}" style="text-decoration: none;">
+        <div class="card">
+            {% if author.photo %}
+            <img src="{{ author.photo.url }}" alt="{{ author.first_name }} {{ author.last_name }}" class="card-image">
+            {% else %}
+            <div class="card-image" style="display: flex; align-items: center; justify-content: center; color: #999;">
+                <i class="fas fa-user" style="font-size: 3rem;"></i>
+            </div>
+            {% endif %}
+            <div class="card-content">
+                <h3 class="card-title">{{ author.first_name }} {{ author.last_name }}</h3>
+                <p class="card-author">{{ author.country }}</p>
+                <div class="card-meta">
+                    <span class="year">Род. {{ author.birthday|date:"Y" }}</span>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% empty %}
+    <div style="grid-column: 1 / -1; text-align: center; color: white; padding: 3rem;">
+        <i class="fas fa-users" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+        <h2>Авторы не найдены</h2>
+    </div>
+    {% endfor %}
 </div>
-{% empty %}
-<p>Авторы не найдены.</p>
-{% endfor %}
 {% endblock %}

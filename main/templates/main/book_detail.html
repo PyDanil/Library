@@ -1,18 +1,55 @@
 {% extends 'main/base.html' %}
 
-{% block title %}{{ book.title }} - Библиотека{% endblock %}
+{% block title %}{{ book.title }} - Modern Library{% endblock %}
 
 {% block content %}
-<div class="book-detail">
-    <h2>{{ book.title }}</h2>
-    <p><strong>Автор:</strong> <a href="{% url 'author_detail' book.id_author.id_author %}">{{ book.id_author.first_name }} {{ book.id_author.last_name }}</a></p>
-    <p><strong>Год публикации:</strong> {{ book.year }}</p>
-    <p><strong>Жанр:</strong> {{ book.id_genre.name_genre }}</p>
-    <p><strong>Описание жанра:</strong> {{ book.id_genre.description }}</p>
-    <p><strong>Страниц:</strong> {{ book.pages }}</p>
-    <p><strong>Возрастной рейтинг:</strong> {{ book.age_rating }}</p>
-    <p><strong>Размер файла:</strong> {{ book.file_size }} байт</p>
-    <p><strong>Путь к файлу:</strong> {{ book.file_path }}</p>
+<a href="{% url 'book_list' %}" class="back-btn">
+    <i class="fas fa-arrow-left"></i> Назад к книгам
+</a>
+
+<div class="detail-container">
+    <div class="detail-header">
+        <div>
+            {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="detail-image">
+            {% else %}
+            <div class="detail-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, #f0f0f0, #e0e0e0); color: #999;">
+                <i class="fas fa-book" style="font-size: 4rem;"></i>
+            </div>
+            {% endif %}
+        </div>
+        <div class="detail-info">
+            <h1>{{ book.title }}</h1>
+            <p style="font-size: 1.2rem; color: #6b7280; margin-bottom: 1rem;">
+                <a href="{% url 'author_detail' book.id_author.id_author %}" style="color: #4f46e5; text-decoration: none;">
+                    {{ book.id_author.first_name }} {{ book.id_author.last_name }}
+                </a>
+            </p>
+            
+            <div class="detail-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Год издания</div>
+                    <div class="meta-value">{{ book.year }}</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Жанр</div>
+                    <div class="meta-value">{{ book.id_genre.name_genre }}</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Страниц</div>
+                    <div class="meta-value">{{ book.pages }}</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Возрастной рейтинг</div>
+                    <div class="meta-value">{{ book.age_rating }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="meta-item" style="margin-top: 2rem;">
+        <div class="meta-label">Описание жанра</div>
+        <div class="meta-value">{{ book.id_genre.description }}</div>
+    </div>
 </div>
-<a href="{% url 'book_list' %}">← Назад к каталогу</a>
 {% endblock %}

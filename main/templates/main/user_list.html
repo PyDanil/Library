@@ -1,22 +1,32 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Пользователи - Библиотека{% endblock %}
+{% block title %}Читатели - Modern Library{% endblock %}
 
 {% block content %}
-<h2>👥 Пользователи библиотеки</h2>
+<h1 class="page-title">👥 Наши Читатели</h1>
 
-{% for user in users %}
-<div class="book">
-    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Дата регистрации:</strong> {{ user.date_join }}</p>
-    <p><strong>Любимый автор:</strong> 
-        <a href="{% url 'author_detail' user.favourite_id_author.id_author %}">
-            {{ user.favourite_id_author.first_name }} {{ user.favourite_id_author.last_name }}
-        </a>
-    </p>
+<div class="cards-grid">
+    {% for user in users %}
+    <div class="card">
+        <div class="card-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, #667eea, #764ba2); color: white;">
+            <i class="fas fa-user-circle" style="font-size: 4rem;"></i>
+        </div>
+        <div class="card-content">
+            <h3 class="card-title">{{ user.first_name }} {{ user.last_name }}</h3>
+            <p class="card-author">{{ user.email }}</p>
+            <div class="card-meta">
+                <span class="year">С {{ user.date_join|date:"Y" }}</span>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: #6b7280;">
+                Любимый автор: {{ user.favourite_id_author.first_name }} {{ user.favourite_id_author.last_name }}
+            </p>
+        </div>
+    </div>
+    {% empty %}
+    <div style="grid-column: 1 / -1; text-align: center; color: white; padding: 3rem;">
+        <i class="fas fa-user-friends" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+        <h2>Читатели не найдены</h2>
+    </div>
+    {% endfor %}
 </div>
-{% empty %}
-<p>Пользователи не найдены.</p>
-{% endfor %}
 {% endblock %}
