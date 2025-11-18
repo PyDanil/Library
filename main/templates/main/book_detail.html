@@ -1,55 +1,64 @@
 {% extends 'main/base.html' %}
 
-{% block title %}{{ book.title }} - Modern Library{% endblock %}
+{% block title %}{{ book.title }} - SysLibrary{% endblock %}
 
 {% block content %}
 <a href="{% url 'book_list' %}" class="back-btn">
-    <i class="fas fa-arrow-left"></i> Назад к книгам
+    ← Назад к книгам
 </a>
 
-<div class="detail-container">
-    <div class="detail-header">
-        <div>
+<div style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+    <!-- Хедер книги -->
+    <div style="background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; padding: 3rem;">
+        <div style="display: grid; grid-template-columns: auto 1fr; gap: 2rem; align-items: center;">
             {% if book.cover_image %}
-            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="detail-image">
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" 
+                 style="width: 200px; height: 250px; object-fit: cover; border-radius: 12px; border: 4px solid white;">
             {% else %}
-            <div class="detail-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, #f0f0f0, #e0e0e0); color: #999;">
-                <i class="fas fa-book" style="font-size: 4rem;"></i>
+            <div style="width: 200px; height: 250px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 4px solid white;">
+                <span style="font-size: 4rem;">📖</span>
             </div>
             {% endif %}
-        </div>
-        <div class="detail-info">
-            <h1>{{ book.title }}</h1>
-            <p style="font-size: 1.2rem; color: #6b7280; margin-bottom: 1rem;">
-                <a href="{% url 'author_detail' book.id_author.id_author %}" style="color: #4f46e5; text-decoration: none;">
-                    {{ book.id_author.first_name }} {{ book.id_author.last_name }}
+            <div>
+                <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">{{ book.title }}</h1>
+                <p style="font-size: 1.3rem; opacity: 0.9; margin-bottom: 1rem;">
+                    <a href="{% url 'author_detail' book.id_author.id_author %}" style="color: white; text-decoration: underline;">
+                        {{ book.id_author.first_name }} {{ book.id_author.last_name }}
+                    </a>
+                </p>
+                <a href="{% url 'book_read' book.id_book %}" style="display: inline-block; background: white; color: #4f46e5; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; margin-top: 1rem;">
+                    📖 Начать чтение
                 </a>
-            </p>
-            
-            <div class="detail-meta">
-                <div class="meta-item">
-                    <div class="meta-label">Год издания</div>
-                    <div class="meta-value">{{ book.year }}</div>
-                </div>
-                <div class="meta-item">
-                    <div class="meta-label">Жанр</div>
-                    <div class="meta-value">{{ book.id_genre.name_genre }}</div>
-                </div>
-                <div class="meta-item">
-                    <div class="meta-label">Страниц</div>
-                    <div class="meta-value">{{ book.pages }}</div>
-                </div>
-                <div class="meta-item">
-                    <div class="meta-label">Возрастной рейтинг</div>
-                    <div class="meta-value">{{ book.age_rating }}</div>
-                </div>
             </div>
         </div>
     </div>
-    
-    <div class="meta-item" style="margin-top: 2rem;">
-        <div class="meta-label">Описание жанра</div>
-        <div class="meta-value">{{ book.id_genre.description }}</div>
+
+    <!-- Информация о книге -->
+    <div style="padding: 2rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                <div style="font-size: 0.9rem; color: #6b7280; margin-bottom: 0.5rem;">Год издания</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: #4f46e5;">{{ book.year }}</div>
+            </div>
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                <div style="font-size: 0.9rem; color: #6b7280; margin-bottom: 0.5rem;">Жанр</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: #4f46e5;">{{ book.id_genre.name_genre }}</div>
+            </div>
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                <div style="font-size: 0.9rem; color: #6b7280; margin-bottom: 0.5rem;">Страниц</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: #4f46e5;">{{ book.pages }}</div>
+            </div>
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; text-align: center;">
+                <div style="font-size: 0.9rem; color: #6b7280; margin-bottom: 0.5rem;">Рейтинг</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: #4f46e5;">{{ book.age_rating }}</div>
+            </div>
+        </div>
+
+        <!-- Описание жанра -->
+        <div style="background: #f0f9ff; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #0ea5e9;">
+            <h3 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; color: #0369a1;">О жанре "{{ book.id_genre.name_genre }}"</h3>
+            <p style="color: #475569; line-height: 1.6;">{{ book.id_genre.description }}</p>
+        </div>
     </div>
 </div>
 {% endblock %}
