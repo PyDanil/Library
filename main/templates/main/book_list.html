@@ -22,12 +22,12 @@
 
 <div class="cards-grid">
     {% for book in books %}
-    <div class="card">
+    <div class="card" onclick="location.href='{% url 'book_detail' book.id_book %}'" style="cursor: pointer;"> <!-- Не ошибка, вроде связал в urls.py, но чёт хз поч выдаёт) -->
         {% if book.cover_image %}
         <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="card-image">
         {% else %}
         <div class="card-image" style="display: flex; align-items: center; justify-content: center; background: linear-gradient(45deg, #f0f0f0, #e0e0e0); color: #999;">
-            <i class="fas fa-book" style="font-size: 3rem;"></i>
+            <span style="font-size: 3rem;">📖</span>
         </div>
         {% endif %}
         <div class="card-content">
@@ -37,22 +37,36 @@
                 <span class="rating">{{ book.age_rating }}</span>
                 <span class="year">{{ book.year }} год</span>
             </div>
-            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                <a href="{% url 'book_detail' book.id_book %}" style="flex: 1; background: #f8fafc; color: #374151; padding: 0.5rem; text-align: center; border-radius: 6px; text-decoration: none; font-size: 0.9rem; border: 1px solid #e2e8f0;">
-                    Подробнее
-                </a>
-                <a href="{% url 'book_read' book.id_book %}" style="flex: 1; background: #4f46e5; color: white; padding: 0.5rem; text-align: center; border-radius: 6px; text-decoration: none; font-size: 0.9rem;">
-                    Читать
-                </a>
-            </div>
+            <a href="{% url 'book_read' book.id_book %}" onclick="event.stopPropagation()" 
+               style="display: block; background: #4f46e5; color: white; padding: 0.5rem; text-align: center; border-radius: 6px; text-decoration: none; font-size: 0.9rem; margin-top: 1rem;">
+                Читать
+            </a>
         </div>
     </div>
     {% empty %}
     <div style="grid-column: 1 / -1; text-align: center; color: white; padding: 3rem;">
-        <i class="fas fa-search" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+        <span style="font-size: 4rem; margin-bottom: 1rem;">🔍</span>
         <h2>Книги не найдены</h2>
         <p>Попробуйте изменить параметры поиска</p>
     </div>
     {% endfor %}
 </div>
+
+<script>
+// Добавляем эффект нажатия на карточки
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('mousedown', function() {
+            this.style.transform = 'translateY(-2px) scale(0.98)';
+        });
+        card.addEventListener('mouseup', function() {
+            this.style.transform = 'translateY(-5px) scale(1)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+});
+</script>
 {% endblock %}
